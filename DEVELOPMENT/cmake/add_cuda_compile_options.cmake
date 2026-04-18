@@ -17,7 +17,7 @@ function(add_cuda_compile_options TARGET_NAME)
   message(DEBUG "\tTARGET_NAME:           \"${TARGET_NAME}\"")
   message(DEBUG "\tCOMPILER_OPTIONS:      \"${COMPILER_OPTIONS}\"")
 
-  target_compile_options(TARGET_NAME PRIVATE
+  target_compile_options(${TARGET_NAME} PRIVATE
     $<$<COMPILE_LANGUAGE:CUDA>:${COMPILER_OPTIONS}>
   )
 endfunction()
