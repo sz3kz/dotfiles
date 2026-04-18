@@ -12,7 +12,7 @@ set(
 
 
 
-function(add_c++_compile_options TARGET_NAME)
+function(add_cpp_compile_options TARGET_NAME)
 
   message(DEBUG "add_c++_compile_options call:")
   message(DEBUG "\tTARGET_NAME:           \"${TARGET_NAME}\"")
