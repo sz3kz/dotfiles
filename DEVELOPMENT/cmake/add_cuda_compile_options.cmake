@@ -1,11 +1,11 @@
 set(
   COMPILER_OPTIONS
   "-Xcompiler=-Wall"
-  "-Wextra"
-  "-Werror"
-  "-Weffc++"
-  "-Wconversion"
-  "-Wsign-conversion"
+  "-Xcompiler=-Wextra"
+  "-Xcompiler=-Werror"
+  "-Xcompiler=-Weffc++"
+  "-Xcompiler=-Wconversion"
+  "-Xcompiler=-Wsign-conversion"
   "-Wno-deprecated-gpu-targets"
 )
 
