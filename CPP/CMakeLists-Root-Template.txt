@@ -1,6 +1,6 @@
 # project name:         <PROJECT_NAME>
 # languages used:       <LANGUAGES_USED>
-#   * CXX 
+#   * CXX
 #   * CUDA
 # package version:      <PACKAGE_VERSION>
 # c++ standard:         <C++_STANDARD>
@@ -17,7 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/dotfiles/CPP")
 include(add_valgrind_test)
-include(add_c++_compile_options)
+include(add_cpp_compile_options)
 include(add_cuda_compile_options)
 include(add_clang_tidy_options)
 
