@@ -14,7 +14,7 @@ function(add_valgrind_test TARGET_NAME)
   message(DEBUG "\tMEMCHECK_OPTIONS:      \"${MEMCHECK_OPTIONS}\"")
 
   if(NOT MEMCHECK)
-    message(FATAL_ERROR "\"Valgrind\" binary not found. Required for testing purposes. Please install it and try again!")
+    message(FATAL_ERROR "\"valgrind\" binary not found / forgot to find. Required for testing purposes. Please install it, find it and try again!")
   endif()
   
   # Add the test

@@ -1,0 +1,9 @@
+.PHONY: cmake-init cmake-update 
+
+cmake-init:
+	git submodule add --force --depth 1 https://github.com/sz3kz/dotfiles.git external/dotfiles
+	cd external/dotfiles && git sparse-checkout init --cone && git sparse-checkout set CPP
+
+cmake-update:
+	git submodule update --remote --merge
+
