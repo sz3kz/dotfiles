@@ -1,7 +1,7 @@
 .PHONY: cmake-init cmake-update cmake-purge
 
-ROOT_DIRECTORY="external/dotfiles/"
-CPP_DIRECTORY="CPP/"
+ROOT_DIRECTORY=external/dotfiles/
+CPP_DIRECTORY=CPP/
 
 cmake-init:
 	git submodule add --force --depth 1 https://github.com/sz3kz/dotfiles.git ${ROOT_DIRECTORY}
