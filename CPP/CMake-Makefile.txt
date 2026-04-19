@@ -9,9 +9,9 @@ cmake-init:
 
 cmake-update:
 	git submodule update --remote --merge
-  cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make deploy
+	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make deploy
 
 cmake-purge:
-  git rm -f ${ROOT_DIRECTORY}
-  git config -f .git/config --remove-section submodule.external/dotfiles
-  rm -rf .git/modules/external/dotfiles
+	git rm -f ${ROOT_DIRECTORY}
+	git config -f .git/config --remove-section submodule.external/dotfiles
+	rm -rf .git/modules/external/dotfiles
