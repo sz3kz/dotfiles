@@ -1,13 +1,16 @@
 .PHONY: cmake-update cmake-purge
 
+URL=https://github.com/sz3kz/dotfiles.git
 ROOT_DIRECTORY=external/dotfiles/
 CPP_DIRECTORY=CPP/
 MAKEFILE_DIRECTORY=make/
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 
 # Add to project:
-# git submodule add --force --depth 1 https://github.com/sz3kz/dotfiles.git ${ROOT_DIRECTORY}
-# cd ${ROOT_DIRECTORY} && git sparse-checkout init --cone && git sparse-checkout set ${CPP_DIRECTORY}
+
+cmake-init:
+	git submodule add --force --depth 1 ${URL} ${ROOT_DIRECTORY}
+	cd ${ROOT_DIRECTORY} && git sparse-checkout init --cone && git sparse-checkout set ${CPP_DIRECTORY}
 
 cmake-update:
 	git submodule update --init --remote									# --remote refreshes commit target
