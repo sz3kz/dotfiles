@@ -4,6 +4,7 @@ set(
   "--leak-check=full"
   "--error-exitcode=1"
   "--errors-for-leak-kinds=all"
+  "--show-leak-kinds=all"
 )
 
 function(add_valgrind_test TARGET_NAME)
