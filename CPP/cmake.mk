@@ -9,7 +9,7 @@ CMAKE_CLIENT_MAKEFILE=cmake.mk
 # Add to project:
 
 cmake-init:
-	git submodule add --force --depth 1 ${URL} ${ROOT_DIRECTORY}
+	git submodule add --depth 1 ${URL} ${ROOT_DIRECTORY}
 	cd ${ROOT_DIRECTORY} && git sparse-checkout init --cone && git sparse-checkout set ${CPP_DIRECTORY}
 
 cmake-update:
