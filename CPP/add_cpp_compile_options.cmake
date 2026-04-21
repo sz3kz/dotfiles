@@ -1,18 +1,16 @@
-set(
-  COMPILER_OPTIONS
-  "-Wall"
-  "-Wextra"
-  "-Werror"
-  "-Weffc++"
-  "-Wconversion"
-  "-Wsign-conversion"
-  "-Wpedantic"
-  "-Wno-error=pedantic"
-)
-
-
-
 function(add_cpp_compile_options TARGET_NAME)
+
+  set(
+    COMPILER_OPTIONS
+    "-Wall"
+    "-Wextra"
+    "-Werror"
+    "-Weffc++"
+    "-Wconversion"
+    "-Wsign-conversion"
+    "-Wpedantic"
+    "-Wno-error=pedantic"
+  )
 
   message(DEBUG "add_c++_compile_options call:")
   message(DEBUG "\tTARGET_NAME:           \"${TARGET_NAME}\"")

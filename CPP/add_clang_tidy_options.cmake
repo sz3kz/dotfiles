@@ -1,13 +1,11 @@
-set(
-  CLANG_TIDY_OPTIONS
-  "-header-filter=./include/"
-  "-checks=*"
-  "-warnings-as-errors=*"
-)
-
-
-
 function(add_clang_tidy_options)
+
+  set(
+    CLANG_TIDY_OPTIONS
+    "-header-filter=./include/"
+    "-checks=*"
+    "-warnings-as-errors=*"
+  )
 
   message(DEBUG "add_cuda_compile_options call:")
   message(DEBUG "\tTARGET_NAME:           \"${TARGET_NAME}\"")

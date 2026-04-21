@@ -1,17 +1,15 @@
-set(
-  COMPILER_OPTIONS
-  "-Xcompiler=-Wall"
-  "-Xcompiler=-Wextra"
-  "-Xcompiler=-Werror"
-  "-Xcompiler=-Weffc++"
-  "-Xcompiler=-Wconversion"
-  "-Xcompiler=-Wsign-conversion"
-  "-Wno-deprecated-gpu-targets"
-)
-
-
-
 function(add_cuda_compile_options TARGET_NAME)
+
+  set(
+    COMPILER_OPTIONS
+    "-Xcompiler=-Wall"
+    "-Xcompiler=-Wextra"
+    "-Xcompiler=-Werror"
+    "-Xcompiler=-Weffc++"
+    "-Xcompiler=-Wconversion"
+    "-Xcompiler=-Wsign-conversion"
+    "-Wno-deprecated-gpu-targets"
+  )
 
   message(DEBUG "add_cuda_compile_options call:")
   message(DEBUG "\tTARGET_NAME:           \"${TARGET_NAME}\"")

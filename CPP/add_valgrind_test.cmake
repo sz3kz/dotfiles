@@ -1,13 +1,13 @@
-set(
-  MEMCHECK_OPTIONS 
-  "--tool=memcheck"
-  "--leak-check=full"
-  "--error-exitcode=1"
-  "--errors-for-leak-kinds=all"
-  "--show-leak-kinds=all"
-)
-
 function(add_valgrind_test TARGET_NAME)
+
+  set(
+    MEMCHECK_OPTIONS 
+    "--tool=memcheck"
+    "--leak-check=full"
+    "--error-exitcode=1"
+    "--errors-for-leak-kinds=all"
+    "--show-leak-kinds=all"
+  )
 
   message(DEBUG "add_valgrind_test call:")
   message(DEBUG "\tTARGET_NAME:           \"${TARGET_NAME}\"")
