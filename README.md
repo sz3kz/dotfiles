@@ -6,6 +6,7 @@ Collection of configurations of my favourite tools!
 ```bash
 git submodule add --depth 1 https://github.com/sz3kz/dotfiles.git external/dotfiles/
 cd external/dotfiles/ && git sparse-checkout init --cone && git sparse-checkout set CPP/
+cd CPP/ && make deploy
 ```
 After that all you do is
 ```bash
