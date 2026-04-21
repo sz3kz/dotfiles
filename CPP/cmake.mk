@@ -1,7 +1,7 @@
 .PHONY: cmake-update cmake-purge
 
 ROOT_DIRECTORY=external/dotfiles/
-# CPP_DIRECTORY=CPP/
+CPP_DIRECTORY=CPP/
 MAKEFILE_DIRECTORY=make/
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 
