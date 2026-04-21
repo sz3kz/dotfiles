@@ -1,6 +1,13 @@
 .PHONY: deploy
 
+CMAKE_CLIENT_MAKEFILE=CMake-Makefile.txt
+CMAKE_CLIENT_MAKEFILE=cmake.mk
+CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
+CLIENT_ROOT_DIRECTORY=../../../
+MAKEFILE_DIRECTORY=make/
+
 deploy:
-	-cp -i CMakeLists-Root-Template.txt ../../../CMakeLists.txt
-	-cp -i CMake-Makefile.txt ../../../Makefile
+	-cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${CMAKE_CLIENT_MAKEFILE}
 
