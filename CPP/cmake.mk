@@ -15,7 +15,7 @@ cmake-update:
 
 cmake-purge:
 	git rm -f ${ROOT_DIRECTORY}
-	git config -f .git/config --remove-section submodule.external/dotfiles
-	rm -rf .git/modules/external/dotfiles
+	git config -f .git/config --remove-section submodule.${ROOT_DIRECTORY}
+	rm -rf .git/modules/${ROOT_DIRECTORY}
 	rm ${MAKEFILE_DIRECTORY}${CMAKE_CLIENT_MAKEFILE}
 	-rmdir ${MAKEFILE_DIRECTORY}
