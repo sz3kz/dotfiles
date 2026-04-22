@@ -9,12 +9,14 @@ CMAKE_CLIENT_MAKEFILE=cmake.mk
 # This initializes the existing cmake
 cmake-init:
 	git submodule update --init													# fetches existing commit
-	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make sync
+	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make cmake-sync
+	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make ncu-init
 
 # This updates the target cmake 
 cmake-update:
 	git submodule update --init --remote								# fetches latest commit
-	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make deploy
+	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make cmake-deploy
+	cd ${ROOT_DIRECTORY}${CPP_DIRECTORY} && make ncu-init
 
 cmake-purge:
 	git rm -f ${ROOT_DIRECTORY}
