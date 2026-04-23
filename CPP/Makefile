@@ -21,7 +21,7 @@ NCU_BINARY_PATH=$(shell which ncu)
 # Initialize (git submodule add + git sparse ... + run this)
 dotfiles-init:
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	-cp -i ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}
+	-cp -i ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 
 # dotfiles: copy makefile
 dotfiles-refresh:
