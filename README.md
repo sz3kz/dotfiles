@@ -4,12 +4,25 @@ Collection of configurations of my favourite tools!
 ## How to use
 ### CPP
 ```bash
-git submodule add --depth 1 https://github.com/sz3kz/dotfiles.git external/dotfiles/
-cd external/dotfiles/ && git sparse-checkout init --cone && git sparse-checkout set CPP/
-cd CPP/ && make deploy
+# Add this repo as a submodule
+git submodule add --force --depth 1 https://github.com/sz3kz/dotfiles.git external/dotfiles/
+
+# Sparse load it only for CPP
+cd external/dotfiles/
+git sparse-checkout init --cone
+git sparse-checkout set CPP/
+
+# initialize it
+cd CPP/
+make dotfiles-init
 ```
-After that all you do is
+Things you would probably want ( Still in CPP/ directory)
 ```bash
-make cmake-init     # initialize the cmake
-make cmake-update   # updates to the latest commit
+# Expose make commands
+make dotfiles-refresh
+make cmake-refresh
+make ncu-refresh
+
+# deploy the CMakeLists.txt template
+make cmake-retemplate
 ```
