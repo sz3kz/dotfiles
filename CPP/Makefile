@@ -47,7 +47,7 @@ dotfiles-activate:
 # 	WHAT: Deletes "make/" directory, deletes "Makefile", deletes the submodule.
 dotfiles-deinit:
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	rm -i ${CLIENT_ROOT_DIRECTORY}Makefile
+	-rm -i ${CLIENT_ROOT_DIRECTORY}Makefile
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/
 
 # CMAKE: Retemplation
