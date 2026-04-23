@@ -43,11 +43,11 @@ dotfiles-activate:
 
 # Delete submodule
 dotfiles-deinit:
-	-cd ${CLIENT_ROOT_DIRECTORY} && git config -f .git/config --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
-	-cd ${CLIENT_ROOT_DIRECTORY} && git config -f .gitmodules --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
-	-cd ${CLIENT_ROOT_DIRECTORY} && rm -rf .git/modules/${REPOSITORY_ROOT_DIRECTORY}
-	-cd ${CLIENT_ROOT_DIRECTORY} && rm -r ${MAKEFILE_DIRECTORY}
-	cd ${CLIENT_ROOT_DIRECTORY} && git rm -f ${REPOSITORY_ROOT_DIRECTORY}
+	git config -f ${CLIENT_ROOT_DIRECTORY}.git/config --remove-section submodule.external/dotfiles 	# works correctly
+	git config -f ${CLIENT_ROOT_DIRECTORY}.gitmodules --remove-section submodule.external/dotfiles 	# works correctly
+	rm -rf ${CLIENT_ROOT_DIRECTORY}.git/modules/${REPOSITORY_ROOT_DIRECTORY}												# works correctly
+	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	rm -r ${CLIENT_ROOT_DIRECTORY}${REPOSITORY_ROOT_DIRECTORY}
 
 # CMAKE: overwrite CMakeLists.txt with the template (WILL NOT ASK)
 cmake-retemplate: 
