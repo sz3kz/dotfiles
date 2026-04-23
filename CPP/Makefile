@@ -46,8 +46,7 @@ dotfiles-deinit:
 	-cd ${CLIENT_ROOT_DIRECTORY} && git config -f .git/config --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
 	-cd ${CLIENT_ROOT_DIRECTORY} && git config -f .gitmodules --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
 	-cd ${CLIENT_ROOT_DIRECTORY} && rm -rf .git/modules/${REPOSITORY_ROOT_DIRECTORY}
-	cd ${CLIENT_ROOT_DIRECTORY} && rm -r ${CLIENT_MAKEFILE_DIRECTORY}
-	-cd ${CLIENT_ROOT_DIRECTORY} && rmdir ${MAKEFILE_DIRECTORY}
+	-cd ${CLIENT_ROOT_DIRECTORY} && rm -r ${MAKEFILE_DIRECTORY}
 	cd ${CLIENT_ROOT_DIRECTORY} && git rm -f ${REPOSITORY_ROOT_DIRECTORY}
 
 # CMAKE: overwrite CMakeLists.txt with the template (WILL NOT ASK)
