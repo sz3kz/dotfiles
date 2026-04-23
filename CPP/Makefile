@@ -73,7 +73,7 @@ ncu-activate:
 	cp ${NCU_BINARY_PATH}../../sections/*.py ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
 
 # NCU: Deactivation
-# 	WHEN: ???
+# 	WHEN: ??? want save space?
 # 	WHAT: Deletes ncu section directory.
 ncu-deactivate:
 	 rm -r ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
