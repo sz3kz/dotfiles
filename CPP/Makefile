@@ -1,32 +1,74 @@
-.PHONY: dotfiles-sync cmake-sync cmake-initialize ncu-sync
+.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh
 
-
-CLIENT_ROOT_DIRECTORY=../../../
-
-CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
-MAKEFILE_DIRECTORY=make/
+REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
 
-# Create the "make/" directory
-dotfiles-setup:
-	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+CLIENT_ROOT_DIRECTORY=../../../
+MAKEFILE_DIRECTORY=make/
+CLIENT_MAKEFILE_DIRECTORY=${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 
-# Copy dotfiles makefile to "make/" directory
-dotfiles-sync:
-	cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${DOTFILES_CLIENT_MAKEFILE}
+CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
+
+NCU_CLIENT_DIRECTORY=${CLIENT_ROOT_DIRECTORY}.ncu-compute-profiler/
+NCU_BINARY_PATH=$(shell which ncu)
 
 
-# Copy cmake makefile to "make/" directory
-cmake-sync:
-	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${CMAKE_CLIENT_MAKEFILE}
 
-# cmake-sync + provide cmakelists.txt template
-cmake-initialize: cmake-sync
-	-cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+# Initialize (git submodule add + git sparse ... + run this)
+dotfiles-init:
+	-cd ${CLIENT_ROOT_DIRECTORY} && mkdir ${MAKEFILE_DIRECTORY}
+	#cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	#cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	#cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	#-cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 
-# Copy ncu makefile to "make/" directory
-ncu-sync:
-	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${NCU_CLIENT_MAKEFILE}
+# dotfiles: copy makefile
+dotfiles-refresh:
+	cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+
+# Update  ( Update commit + copy fresh make files + ask to overwrite cmakelists.txt)
+dotfiles-update:
+	git submodule update --init --remote
+	#cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	#cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	#cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	#-cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+
+# Activate (git clone -> only want the CPP/*.cmake files)
+dotfiles-activate:
+	git submodule update --init
+
+# Delete submodule
+dotfiles-deinit:
+	git rm -f ${REPOSITORY_ROOT_DIRECTORY}
+	-git rm --cached ${REPOSITORY_ROOT_DIRECTORY}
+	-git config -f .git/config --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
+	-git config -f .gitmodules --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
+	-rm -rf .git/modules/${REPOSITORY_ROOT_DIRECTORY}
+	rm -r ${CLIENT_MAKEFILE_DIRECTORY}
+	-rmdir ${MAKEFILE_DIRECTORY}
+
+# CMAKE: overwrite CMakeLists.txt with the template (WILL NOT ASK)
+cmake-retemplate: 
+	cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+
+# CMAKE: copy makefile
+cmake-refresh:
+	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+
+# NCU: activate the section directory( want to copy the *.section and *.py files)
+ncu-activate:
+	mkdir ${NCU_SECTION_DIRECTORY}
+	cp ${NCU_BINARY_PATH}../../sections/*.section ${NCU_CLIENT_DIRECTORY}
+	cp ${NCU_BINARY_PATH}../../sections/*.py ${NCU_CLIENT_DIRECTORY}
+
+# NCU: delete the section directory
+ncu-deactivate:
+	rm -r ${NCU_CLIENT_DIRECTORY}
+
+# NCU: copy makefile
+ncu-refresh:
+	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}

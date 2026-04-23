@@ -1,13 +1,12 @@
-.PHONY: ncu-sync
+.PHONY: ncu-activate ncu-deactivate ncu-refresh 
 
-NCU_SECTION_DIRECTORY=.ncu-compute-profiler/
-NCU_BINARY_PATH=$(shell which ncu)
+SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/
 
-# This initializes the existing cmake
-ncu-sync:
-	mkdir ${NCU_SECTION_DIRECTORY}
-	cp ${NCU_BINARY_PATH}../../sections/*.section ${NCU_SECTION_DIRECTORY}
-	cp ${NCU_BINARY_PATH}../../sections/*.py ${NCU_SECTION_DIRECTORY}
+ncu-activate:
+	cd ${SERVER_MAKEFILE_DIRECTORY} && make dotfiles-activate
 
-ncu-purge:
-	rm -r ${NCU_SECTION_DIRECTORY}
+ncu-deactivate:
+	cd ${SERVER_MAKEFILE_DIRECTORY} && make dotfiles-deactivate
+
+ncu-refresh:
+	cd ${SERVER_MAKEFILE_DIRECTORY} && make dotfiles-refresh
