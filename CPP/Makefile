@@ -9,60 +9,78 @@ MAKEFILE_CLIENT_MAKEFILE=Client.mk
 
 CLIENT_ROOT_DIRECTORY=../../../
 MAKEFILE_DIRECTORY=make/
-CLIENT_MAKEFILE_DIRECTORY=${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+NCU_DIRECTORY=.ncu-compute-profiler/
 
+NCU_BINARY_PATH=$(shell which ncu)
 CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 
-NCU_CLIENT_DIRECTORY=${CLIENT_ROOT_DIRECTORY}.ncu-compute-profiler/
-NCU_BINARY_PATH=$(shell which ncu)
-
-
-
-# Initialize (git submodule add + git sparse ... + run this)
+# Initialization
+# 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
+# 		Should be ran by the user directly inside the dotfiles/CPP/ directory.
+# 	WHEN: Execute this after adding the repository as a submodule (+ sparsing the file tree).
+# 	WHAT: Creates "make/", creates the client's Makefile.
 dotfiles-init:
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-cp -i ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 
-# dotfiles: copy makefile
+# Refresh(1)
+# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 		Execute this after every Update.
+# 	WHAT: Copy new dotfiles.mk to user directory for direct usage.
 dotfiles-refresh:
-	cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 
-# Update  ( Update commit + copy fresh make files + ask to overwrite cmakelists.txt)
+# Update
+# 	WHEN: Execute this if want to update submodule.
+# 	WHAT: Move submodule to latest commit.
 dotfiles-update:
 	git submodule update --init --remote
-	#cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
-	#cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
-	#cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
-	#-cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 
-# Activate (git clone -> only want the CPP/*.cmake files)
+# Activation
+# 	WHEN: Execute after git cloning repository that uses submodule.
+# 	WHAT: Fetch the bulk of the submodule.
 dotfiles-activate:
 	git submodule update --init
 
-# Delete submodule
+# Deinitialization
+# 	WHEN: Execute if want remove submodule usage from repository.
+# 	WHAT: Deletes "make/" directory, deletes "Makefile", deletes the submodule.
 dotfiles-deinit:
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	rm -i ${CLIENT_ROOT_DIRECTORY}Makefile
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/
 
-# CMAKE: overwrite CMakeLists.txt with the template (WILL NOT ASK)
+# CMAKE: Retemplation
+# 	WHEN: Execute after Initialization in the dotfiles/CPP/ directory.
+# 		Execute this after Update introduced changes to CMakeLists-Root-Template.txt .
+# 	What: Overwrites / Copies the CMakeLists-Root-Template.txt to client.
 cmake-retemplate: 
-	cp -i ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 
-# CMAKE: copy makefile
+# CMAKE: Refresh(2):
+# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 		Execute this after every Update.
+# 	WHAT: Copy new cmake.mk to user directory for direct usage.
 cmake-refresh:
-	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 
-# NCU: activate the section directory( want to copy the *.section and *.py files)
+# NCU: Activation
+# 	WHEN: Execute after git cloning repository that uses submodule.
+# 	WHAT: Copies section directory (solves hard-coded RO paths problem on NixOS).
 ncu-activate:
 	mkdir ${NCU_SECTION_DIRECTORY}
-	cp ${NCU_BINARY_PATH}../../sections/*.section ${NCU_CLIENT_DIRECTORY}
-	cp ${NCU_BINARY_PATH}../../sections/*.py ${NCU_CLIENT_DIRECTORY}
+	cp ${NCU_BINARY_PATH}../../sections/*.section ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	cp ${NCU_BINARY_PATH}../../sections/*.py ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
 
-# NCU: delete the section directory
+# NCU: Deactivation
+# 	WHEN: ???
+# 	WHAT: Deletes ncu section directory.
 ncu-deactivate:
-	 rm -r ${NCU_CLIENT_DIRECTORY}
+	 rm -r ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
 
-# NCU: copy makefile
+# NCU: Refresh(3):
+# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 		Execute this after every Update.
+# 	WHAT: Copy new ncu-compute.mk to user directory for direct usage.
 ncu-refresh:
-	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
+	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
