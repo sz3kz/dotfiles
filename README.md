@@ -7,13 +7,8 @@ Collection of configurations of my favourite tools!
 # Add this repo as a submodule
 git submodule add --force --depth 1 https://github.com/sz3kz/dotfiles.git external/dotfiles/
 
-# Sparse load it only for CPP
-cd external/dotfiles/
-git sparse-checkout init --cone
-git sparse-checkout set CPP/
-
-# initialize it
-cd CPP/
+# Initialize it
+cd external/dotfiles/CPP/
 make dotfiles-init
 ```
 Things you would probably want ( Still in CPP/ directory)
