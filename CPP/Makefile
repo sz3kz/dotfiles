@@ -43,13 +43,13 @@ dotfiles-activate:
 
 # Delete submodule
 dotfiles-deinit:
-	git rm -f ${REPOSITORY_ROOT_DIRECTORY}
-	-git rm --cached ${REPOSITORY_ROOT_DIRECTORY}
-	-git config -f .git/config --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
-	-git config -f .gitmodules --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
-	-rm -rf .git/modules/${REPOSITORY_ROOT_DIRECTORY}
-	rm -r ${CLIENT_MAKEFILE_DIRECTORY}
-	-rmdir ${MAKEFILE_DIRECTORY}
+	cd ${CLIENT_ROOT_DIRECTORY} && git rm -f ${REPOSITORY_ROOT_DIRECTORY}
+	-cd ${CLIENT_ROOT_DIRECTORY} && git rm --cached ${REPOSITORY_ROOT_DIRECTORY}
+	-cd ${CLIENT_ROOT_DIRECTORY} && git config -f .git/config --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
+	-cd ${CLIENT_ROOT_DIRECTORY} && git config -f .gitmodules --remove-section submodule.${REPOSITORY_ROOT_DIRECTORY}
+	-cd ${CLIENT_ROOT_DIRECTORY} && rm -rf .git/modules/${REPOSITORY_ROOT_DIRECTORY}
+	cd ${CLIENT_ROOT_DIRECTORY} && rm -r ${CLIENT_MAKEFILE_DIRECTORY}
+	-cd ${CLIENT_ROOT_DIRECTORY} && rmdir ${MAKEFILE_DIRECTORY}
 
 # CMAKE: overwrite CMakeLists.txt with the template (WILL NOT ASK)
 cmake-retemplate: 
@@ -67,7 +67,7 @@ ncu-activate:
 
 # NCU: delete the section directory
 ncu-deactivate:
-	rm -r ${NCU_CLIENT_DIRECTORY}
+	 rm -r ${NCU_CLIENT_DIRECTORY}
 
 # NCU: copy makefile
 ncu-refresh:
