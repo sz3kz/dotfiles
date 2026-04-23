@@ -31,7 +31,7 @@ dotfiles-refresh:
 
 # Update  ( Update commit + copy fresh make files + ask to overwrite cmakelists.txt)
 dotfiles-update:
-	git submodule update --init --remote
+	cd ${CLIENT_ROOT_DIRECTORY} && git submodule update --init --remote
 	#cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
 	#cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
 	#cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_MAKEFILE_DIRECTORY}
