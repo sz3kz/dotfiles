@@ -5,6 +5,7 @@ REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
+LOCAL_CLIENT_MAKEFILE=local.mk
 MAKEFILE_CLIENT_MAKEFILE=Client.mk
 
 CLIENT_ROOT_DIRECTORY=../../../
@@ -18,10 +19,11 @@ CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
 # 		Should be ran by the user directly inside the dotfiles/CPP/ directory.
 # 	WHEN: Execute this after adding the repository as a submodule (+ sparsing the file tree).
-# 	WHAT: Creates "make/", creates the client's Makefile.
+# 	WHAT: Creates "make/", saves client's Makefile via copy to "make/", creates the client's Makefile.
 dotfiles-init:
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	-cp -i ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
+	mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
+	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 
 # Refresh(1)
 # 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
@@ -44,10 +46,11 @@ dotfiles-activate:
 
 # Deinitialization
 # 	WHEN: Execute if want remove submodule usage from repository.
-# 	WHAT: Deletes "make/" directory, deletes "Makefile", deletes the submodule.
+# 	WHAT: Deletes "make/" directory, restores client's makefile, deletes the submodule.
 dotfiles-deinit:
+	rm ${CLIENT_ROOT_DIRECTORY}Makefile
+	mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	-rm -i ${CLIENT_ROOT_DIRECTORY}Makefile
 	-rm -i ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/
 
