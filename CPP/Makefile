@@ -48,7 +48,7 @@ dotfiles-activate:
 # 	WHEN: Execute if want remove submodule usage from repository.
 # 	WHAT: Deletes "make/" directory, restores client's makefile, deletes the submodule.
 dotfiles-deinit:
-	rm ${CLIENT_ROOT_DIRECTORY}Makefile
+	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-rm -i ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
