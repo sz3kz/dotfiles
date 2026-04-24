@@ -12,7 +12,8 @@ CLIENT_ROOT_DIRECTORY=../../../
 MAKEFILE_DIRECTORY=make/
 NCU_DIRECTORY=.ncu-compute-profiler/
 
-NCU_BINARY_PATH=$(shell which ncu)
+NCU_BINARY_DIRECTORY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
+
 CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 
 # Initialization
@@ -72,9 +73,10 @@ cmake-refresh:
 # 	WHEN: Execute after git cloning repository that uses submodule.
 # 	WHAT: Copies section directory (solves hard-coded RO paths problem on NixOS).
 ncu-activate:
-	mkdir ${NCU_SECTION_DIRECTORY}
-	cp ${NCU_BINARY_PATH}../../sections/*.section ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
-	cp ${NCU_BINARY_PATH}../../sections/*.py ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	mkdir ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	cp ${NCU_BINARY_DIRECTORY}/sections/*.section ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	cp ${NCU_BINARY_DIRECTORY}/sections/*.py ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+
 
 # NCU: Deactivation
 # 	WHEN: ??? want save space?
