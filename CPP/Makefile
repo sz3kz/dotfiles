@@ -82,7 +82,7 @@ ncu-activate:
 # 	WHEN: ??? want save space?
 # 	WHAT: Deletes ncu section directory.
 ncu-deactivate:
-	 rm -r ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	 rm -rf ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
 
 # NCU: Refresh(3):
 # 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
