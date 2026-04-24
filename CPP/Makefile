@@ -22,7 +22,7 @@ CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 # 	WHAT: Creates "make/", saves client's Makefile via copy to "make/", creates the client's Makefile.
 dotfiles-init:
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
+	-mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
 	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 
 # Refresh(1)
@@ -49,7 +49,7 @@ dotfiles-activate:
 # 	WHAT: Deletes "make/" directory, restores client's makefile, deletes the submodule.
 dotfiles-deinit:
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile
-	mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
+	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-rm -i ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/
