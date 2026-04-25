@@ -42,6 +42,9 @@ dotfiles-update:
 # Activation
 # 	WHEN: Execute after git cloning repository that uses submodule.
 # 	WHAT: Fetch the bulk of the submodule.
+# 		(*) This target will reset submodule to the version registered by
+# 		the last commit, so if user wants to revert submodule version
+# 		after Update but BEFORE commiting, this is their go-to.
 dotfiles-activate:
 	git submodule update --init
 
