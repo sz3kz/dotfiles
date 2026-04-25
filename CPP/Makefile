@@ -37,7 +37,7 @@ dotfiles-init:
 	echo "Done!"
 	echo -n "Backing up & Syncing clang-format Configs ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-format
 	echo "Synced!"
 	echo -n "Backing up CMakeLists.txt & Deploying Template ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
