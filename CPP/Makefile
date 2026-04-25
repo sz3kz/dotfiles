@@ -32,14 +32,22 @@ CMAKE_TEMPLATE=cmakelists-root-template.txt
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
 dotfiles-init:
-	mkdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
-	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	echo -n "Ensuring Backup Directory Existence ... "
+	mkdir -p ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	echo "Done!"
+	echo -n "Backing up & Syncing clang-format Configs ... "
+	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
 	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
-	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	echo "Synced!"
+	echo -n "Backing up CMakeLists.txt & Syncing Template ... "
+	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
 	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+	echo "Synced!"
+	echo -n "Preparing Make Environment ... "
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
 	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
+	echo "Done!"
 
 # Refresh(1)
 # 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
