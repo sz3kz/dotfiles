@@ -3,6 +3,7 @@
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
 CMAKE_CLIENT_MAKEFILE=cmake.mk
+CLANG_FORMAT_CLIENT_FILE=.clang-format
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
 LOCAL_CLIENT_MAKEFILE=local.mk
@@ -22,6 +23,7 @@ CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 # 	WHEN: Execute this after adding the repository as a submodule (+ sparsing the file tree).
 # 	WHAT: Creates "make/", saves client's Makefile via copy to "make/", creates the client's Makefile.
 dotfiles-init:
+	-cp -i ${CLANG_FORMAT_CLIENT_FILE} ${CLIENT_ROOT_DIRECTORY}
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
 	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
@@ -52,6 +54,7 @@ dotfiles-activate:
 # 	WHEN: Execute if want remove submodule usage from repository.
 # 	WHAT: Deletes "make/" directory, restores client's makefile, deletes the submodule.
 dotfiles-deinit:
+	-rm -i ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_FILE}
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
