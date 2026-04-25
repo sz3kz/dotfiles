@@ -14,6 +14,7 @@ MAKEFILE_CLIENT_MAKEFILE=Client.mk
 CLIENT_ROOT_DIRECTORY=../../../
 MAKEFILE_DIRECTORY=make/
 NCU_DIRECTORY=.ncu-compute-profiler/
+BACKUP_DIRECTORY=.dotfiles-backup/
 
 NCU_BINARY_DIRECTORY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 
@@ -29,7 +30,9 @@ CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
 dotfiles-init:
-	-cp -i ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	mkdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	-mv ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
 	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
@@ -64,7 +67,8 @@ dotfiles-activate:
 # 		* Restores client's makefile;
 # 		* Deletes the submodule.
 dotfiles-deinit:
-	-rm -i ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE}
+	rm ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} # overwriting is optional, but deletion must be mandatory
+	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE}
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
