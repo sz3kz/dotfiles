@@ -23,7 +23,11 @@ CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
 # 		Should be ran by the user directly inside the dotfiles/CPP/ directory.
 # 	WHEN: Execute this after adding the repository as a submodule (+ sparsing the file tree).
-# 	WHAT: Creates "make/", saves client's Makefile via copy to "make/", creates the client's Makefile.
+# 	WHAT:
+# 		* Syncs ".clang-format" config file;
+# 		* Creates "make/";
+# 		* Saves client's Makefile via copy to "make/";
+# 		* Creates the client's Makefile.
 dotfiles-init:
 	-cp -i ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
 	-mkdir ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
@@ -54,7 +58,11 @@ dotfiles-activate:
 
 # Deinitialization
 # 	WHEN: Execute if want remove submodule usage from repository.
-# 	WHAT: Deletes "make/" directory, restores client's makefile, deletes the submodule.
+# 	WHAT:
+# 		* Syncs ".clang-format" config file;
+# 		* Deletes "make/" directory;
+# 		* Restores client's makefile;
+# 		* Deletes the submodule.
 dotfiles-deinit:
 	-rm -i ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE}
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
