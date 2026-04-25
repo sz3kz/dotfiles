@@ -18,7 +18,7 @@ BACKUP_DIRECTORY=.dotfiles-backup/
 
 NCU_BINARY_DIRECTORY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 
-CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
+CMAKE_TEMPLATE=cmakelists-root-template.txt
 
 # Initialization
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
