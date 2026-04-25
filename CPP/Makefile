@@ -32,7 +32,7 @@ CMAKE_TEMPLATE=cmakelists-root-template.txt
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
 dotfiles-init:
-	echo -n "Ensuring Backup Directory Existence ... "
+	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... ")
 	mkdir -p ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
 	echo "Done!"
 	echo -n "Backing up & Syncing clang-format Configs ... "
@@ -43,7 +43,7 @@ dotfiles-init:
 	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
 	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 	echo "Synced!"
-	echo -n "Preparing Make Environment ... "
+	echo -n "Initializing Make Environment ... "
 	mkdir -p ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	-mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE}
 	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
@@ -54,13 +54,17 @@ dotfiles-init:
 # 		Execute this after every Update.
 # 	WHAT: Copy new dotfiles.mk to user directory for direct usage.
 dotfiles-refresh:
+	echo -n "Refreshing dotfiles-* Commands ... "
 	cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	echo "Done!"
 
 # Update
 # 	WHEN: Execute this if want to update submodule.
 # 	WHAT: Move submodule to latest commit.
 dotfiles-update:
+	echo -n "Updating dotfiles Submodule ... "
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule update --init --remote
+	echo "Done!"
 
 # Activation
 # 	WHEN: Execute after git cloning repository that uses submodule.
@@ -69,7 +73,9 @@ dotfiles-update:
 # 		the last commit, so if user wants to revert submodule version
 # 		after Update but BEFORE commiting, this is their go-to.
 dotfiles-activate:
+	echo -n "Activating dotfiles Submodule ... "
 	git submodule update --init
+	echo "Done!"
 
 # Deinitialization
 # 	WHEN: Execute if want remove submodule usage from repository.
@@ -80,15 +86,21 @@ dotfiles-activate:
 # 		* Restores client's makefile;
 # 		* Deletes the submodule.
 dotfiles-deinit:
+	echo -n "Deinitializing clang-format ... "
 	rm ${CLIENT_ROOT_DIRECTORY}.clang-format # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}.clang-format
+	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}.clang-format 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	echo -n "Deinitializing CMakeList.txt ... "
 	rm ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
-	-rmdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}	# some files may still be there!
+	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	echo -n "Removing Backup Directory ... "
+	rmdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	echo "Done!"
+	echo -n "Deinitializing Make Environment ..."
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
+	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/
+	echo "Removing Submodule ... "
+	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/ && echo "Done!"
 
 # CMAKE: Retemplation
 # 	WHEN: Execute after Initialization in the dotfiles/CPP/ directory.
