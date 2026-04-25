@@ -14,4 +14,4 @@ clang-format-format:
 	cd ${SERVER_MAKEFILE_DIRECTORY} && make clang-format-format CLANG_FORMAT_TARGET_FILE=${FILE}
 
 clang-format-config-update:
-	cd ${SERVER_MAKEFILE_DIRECTORY} && make clang-format-update
+	cd ${SERVER_MAKEFILE_DIRECTORY} && make clang-format-config-update
