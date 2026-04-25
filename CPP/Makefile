@@ -1,4 +1,4 @@
-.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-format-refresh clang-format-format
+.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-format-refresh clang-format-format clang-format-config-update
 
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
@@ -104,3 +104,6 @@ clang-format-refresh:
 
 clang-format-format:
 	cd ${CLIENT_ROOT_DIRECTORY} && clang-format -i -style=file $(CLANG_FORMAT_TARGET_FILE)
+
+clang-format-config-update:
+	-cp -i ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}

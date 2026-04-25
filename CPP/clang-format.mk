@@ -1,4 +1,4 @@
-.PHONY: clang-format-refresh clang-format-format
+.PHONY: clang-format-refresh clang-format-format clang-format-config-update
 FILE ?=
 
 SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/
@@ -12,3 +12,6 @@ clang-format-format:
 		exit 1; \
 	fi
 	cd ${SERVER_MAKEFILE_DIRECTORY} && make clang-format-format CLANG_FORMAT_TARGET_FILE=${FILE}
+
+clang-format-config-update:
+	cd ${SERVER_MAKEFILE_DIRECTORY} && make clang-format-update
