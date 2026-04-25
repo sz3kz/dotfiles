@@ -32,7 +32,7 @@ CMAKE_TEMPLATE=cmakelists-root-template.txt
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
 dotfiles-init:
-	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... ")
+	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... "
 	mkdir -p ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
 	echo "Done!"
 	echo -n "Backing up & Syncing clang-format Configs ... "
