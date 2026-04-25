@@ -31,7 +31,7 @@ CMAKE_TEMPLATE=CMakeLists-Root-Template.txt
 # 		* Creates the client's Makefile.
 dotfiles-init:
 	mkdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
-	-mv ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
 	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
 	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
 	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
@@ -69,8 +69,8 @@ dotfiles-activate:
 # 		* Restores client's makefile;
 # 		* Deletes the submodule.
 dotfiles-deinit:
-	rm ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE}
+	rm ${CLIENT_ROOT_DIRECTORY}.clang-format # overwriting is optional, but deletion must be mandatory
+	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}.clang-format
 	rm ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
 	-rmdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}	# some files may still be there!
