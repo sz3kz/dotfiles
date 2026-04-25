@@ -69,6 +69,7 @@ dotfiles-activate:
 dotfiles-deinit:
 	rm ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} # overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}${CLANG_FORMAT_CLIENT_CONFIG_FILE}
+	-rmdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}	# some files may still be there!
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
