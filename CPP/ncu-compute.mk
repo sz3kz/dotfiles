@@ -1,4 +1,5 @@
 .PHONY: ncu-activate ncu-deactivate ncu-refresh 
+.SILENT:
 
 SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/
 

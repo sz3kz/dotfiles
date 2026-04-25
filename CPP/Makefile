@@ -1,4 +1,5 @@
 .PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-format-refresh clang-format-format clang-format-config-update
+.SILENT:
 
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 

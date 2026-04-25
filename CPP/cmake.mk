@@ -1,4 +1,5 @@
 .PHONY: cmake-retemplate cmake-refresh
+.SILENT:
 
 SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/
 

@@ -1,4 +1,6 @@
 .PHONY: clang-format-refresh clang-format-format clang-format-config-update
+.SILENT:
+
 FILE ?=
 
 SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/

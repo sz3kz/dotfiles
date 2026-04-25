@@ -1,4 +1,5 @@
 .PHONY: dotfiles-activate dotfiles-update dotfiles-deinit dotfiles-refresh
+.SILENT:
 
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 LANGUAGE_DIRECTORY=CPP/
