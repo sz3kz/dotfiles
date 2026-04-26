@@ -15,4 +15,5 @@ make boilerplate-init
 # Expose make commands
 make boilerplate-refresh
 make cmake-refresh
+make clang-refresh
 ```
