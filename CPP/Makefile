@@ -124,23 +124,29 @@ cmake-refresh:
 # 	WHEN: Execute after git cloning repository that uses submodule.
 # 	WHAT: Copies section directory (solves hard-coded RO paths problem on NixOS).
 ncu-activate:
-	mkdir ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	echo -n "Activating nsight-compute Section Directory ... "
+	mkdir -p ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
 	cp ${NCU_BINARY_DIRECTORY}/sections/*.section ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
 	cp ${NCU_BINARY_DIRECTORY}/sections/*.py ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	echo "Done!"
 
 
 # NCU: Deactivation
 # 	WHEN: ??? want save space?
 # 	WHAT: Deletes ncu section directory.
 ncu-deactivate:
-	 rm -rf ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	echo -n "Deactivating nsight-compute Section Directory ... "
+	rm -rf ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	echo "Done!"
 
 # NCU: Refresh(3):
 # 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
 # 		Execute this after every Update.
 # 	WHAT: Copy new ncu-compute.mk to user directory for direct usage.
 ncu-refresh:
+	echo -n "Refreshing cmake-* Commands ... "
 	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	echo "Done!"
 
 clang-format-refresh:
 	cp ${CLANG_FORMAT_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
