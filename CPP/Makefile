@@ -148,7 +148,7 @@ ncu-refresh:
 	echo "Done!"
 
 clang-refresh:
-	echo -n "Refreshing clang-format-* Commands ... "
+	echo -n "Refreshing clang-* Commands ... "
 	cp ${CLANG_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	echo "Done!"
 
