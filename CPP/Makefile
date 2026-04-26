@@ -1,11 +1,11 @@
-.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-format-refresh clang-format-config-update
+.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format
 .SILENT:
 
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 CLANG_FORMAT_CLIENT_CONFIG_FILE=clang-format-template.txt
-CLANG_FORMAT_CLIENT_MAKEFILE=clang-format.mk
+CLANG_CLIENT_MAKEFILE=clang.mk
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
 LOCAL_CLIENT_MAKEFILE=local.mk
@@ -147,12 +147,12 @@ ncu-refresh:
 	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	echo "Done!"
 
-clang-format-refresh:
+clang-refresh:
 	echo -n "Refreshing clang-format-* Commands ... "
-	cp ${CLANG_FORMAT_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	cp ${CLANG_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	echo "Done!"
 
-clang-format-config-update:
+clang-update-format:
 	echo -n "Updating clang-format Configs ... "
 	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
 	echo "Done!"
