@@ -3,10 +3,13 @@ repos:
     rev: v18.1.8
     hooks:
       - id: clang-format
-        stages: [commit]
+        stages: [pre-commit]
+        additional_dependencies: ["clang-format==18.1.8"]
+        args: ["-i"]
 
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
     hooks:
       - id: clang-tidy
-        stages: [push]
+        stages: [pre-push]
+
