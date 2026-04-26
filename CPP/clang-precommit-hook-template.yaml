@@ -12,4 +12,5 @@ repos:
     hooks:
       - id: clang-tidy
         stages: [pre-push]
-
+        args: ["-p=build/"]
+        additional_dependencies: ["clang-tidy==18.1.8"]
