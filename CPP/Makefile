@@ -20,6 +20,7 @@ NCU_BINARY_DIRECTORY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 CMAKE_TEMPLATE=cmakelists-root-template.txt
 TEMPLATE_CLANG_FORMAT=clang-format-template.txt
 TEMPLATE_CLANG_TIDY=clang-tidy-template.txt
+TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 
 # Initialization
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
@@ -42,6 +43,10 @@ dotfiles-init:
 	echo -n "Backing up & Syncing clang-tidy Options ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
 	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
+	echo "Synced!"
+	echo -n "Backing up & Syncing The Pre-Commit Hook ... "
+	-mv ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
+	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml
 	echo "Synced!"
 	echo -n "Backing up CMakeLists.txt & Deploying Template ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
@@ -96,6 +101,9 @@ dotfiles-deinit:
 	echo -n "Deinitializing clang-tidy ... "
 	rm ${CLIENT_ROOT_DIRECTORY}.clang-tidy # overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}.clang-tidy 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	echo -n "Deinitializing The Pre-Commit Hook ... "
+	rm ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml # overwriting is optional, but deletion must be mandatory
+	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.pre-commit-config.yaml ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Deinitializing CMakeList.txt ... "
 	rm ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
@@ -168,4 +176,9 @@ clang-update-format:
 clang-update-tidy:
 	echo -n "Updating clang-tidy Options ... "
 	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
+	echo "Done!"
+
+clang-update-hook:
+	echo -n "Updating The Pre-Commit Hook ... "
+	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml
 	echo "Done!"
