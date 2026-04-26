@@ -62,7 +62,7 @@ dotfiles-refresh:
 # 	WHEN: Execute this if want to update submodule.
 # 	WHAT: Move submodule to latest commit.
 dotfiles-update:
-	echo -n "Updating dotfiles Submodule ... "
+	echo "Updating dotfiles Submodule:"
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule update --init --remote
 	echo "Done!"
 
