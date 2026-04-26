@@ -99,7 +99,7 @@ dotfiles-deinit:
 	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	echo "Removing Submodule ... "
+	echo "Removing Submodule: "
 	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/ && echo "Done!"
 
 # CMAKE: Retemplation
