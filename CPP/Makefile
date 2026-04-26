@@ -1,11 +1,10 @@
-.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-format-refresh clang-format-format clang-format-config-update
+.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-format-refresh clang-format-config-update
 .SILENT:
 
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 CLANG_FORMAT_CLIENT_CONFIG_FILE=clang-format-template.txt
-CLANG_FORMAT_TARGET_FILE ?=
 CLANG_FORMAT_CLIENT_MAKEFILE=clang-format.mk
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
@@ -151,11 +150,6 @@ ncu-refresh:
 clang-format-refresh:
 	echo -n "Refreshing clang-format-* Commands ... "
 	cp ${CLANG_FORMAT_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	echo "Done!"
-
-clang-format-format:
-	echo -n "Formatting \"${CLANG_FORMAT_TARGET_FILE}\" via clang-format ... "
-	cd ${CLIENT_ROOT_DIRECTORY} && clang-format -i -style=file $(CLANG_FORMAT_TARGET_FILE)
 	echo "Done!"
 
 clang-format-config-update:
