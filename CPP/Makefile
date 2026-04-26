@@ -27,7 +27,9 @@ TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 # 		Should be ran by the user directly inside the dotfiles/CPP/ directory.
 # 	WHEN: Execute this after adding the repository as a submodule (+ sparsing the file tree).
 # 	WHAT:
-# 		* Backs up root repository's ".clang-format" + syncs clang-format configuration
+# 		* Backs up root repository's ".clang-format" + syncs clang-format options
+# 		* Backs up root repository's ".clang-tidy" + syncs clang-tidy options
+# 		* Backs up root repository's ".pre-commit-config.yaml" + syncs the clang pre-commit hook
 # 		* Backs up root repository's "CMakeLists.txt" + syncs CMakeLists.txt configuration
 # 		* Creates "make/";
 # 		* Saves client's Makefile via copy to "make/";
@@ -90,6 +92,8 @@ dotfiles-activate:
 # 	WHEN: Execute if want remove submodule usage from repository.
 # 	WHAT:
 # 		* Deletes ".clang-format" (or restores from backup)
+# 		* Deletes ".clang-tidy" (or restores from backup)
+# 		* Deletes ".pre-commit-config.yaml" (or restores from backup)
 # 		* Deletes "CMakeLists.txt" (or restores from backup)
 # 		* Deletes "make/" directory;
 # 		* Restores client's makefile;
@@ -163,21 +167,34 @@ ncu-refresh:
 	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	echo "Done!"
 
+# CLANG: Refresh(4):
+# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 		Execute this after every Update.
+# 	WHAT: Copy new clang.mk to user directory for direct usage.
 clang-refresh:
 	echo -n "Refreshing clang-* Commands ... "
 	cp ${CLANG_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	echo "Done!"
 
+# CLANG: Format Update
+# 	WHEN: Execute this if want to update .clang-format .
+# 	What: Overwrites / Copies the clang-format options to client.
 clang-update-format:
 	echo -n "Updating clang-format Options ... "
 	cp ${TEMPLATE_CLANG_FORMAT} ${CLIENT_ROOT_DIRECTORY}.clang-format
 	echo "Done!"
 
+# CLANG: Tidy Update
+# 	WHEN: Execute this if want to update .clang-tidy .
+# 	What: Overwrites / Copies the clang-tidy options to client.
 clang-update-tidy:
 	echo -n "Updating clang-tidy Options ... "
 	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
 	echo "Done!"
 
+# CLANG: Hook Update
+# 	WHEN: Execute this if want to update .pre-commit-config.yaml .
+# 	What: Overwrites / Copies the .pre-commit-config.yaml template to client.
 clang-update-hook:
 	echo -n "Updating The Pre-Commit Hook ... "
 	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml
