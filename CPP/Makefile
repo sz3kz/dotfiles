@@ -1,4 +1,4 @@
-.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy
+.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy clang-rehook
 .SILENT:
 
 
@@ -31,6 +31,7 @@ TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 # 		* Backs up root repository's ".clang-tidy" + syncs clang-tidy options
 # 		* Backs up root repository's ".pre-commit-config.yaml" + syncs the clang pre-commit hook
 # 		* Backs up root repository's "CMakeLists.txt" + syncs CMakeLists.txt configuration
+# 		* Installs the .pre-commit-config.yaml as a git hook
 # 		* Creates "make/";
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
@@ -54,6 +55,10 @@ boilerplate-init:
 	-mv ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
 	cp ${TEMPLATE_CMAKE_ROOT} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
 	echo "Synced!"
+	echo -n "Installing The Pre-Commit Hook ... "
+	pre-commit install
+	pre-commit install --hook-type pre-push
+	echo "Done!"
 	echo -n "Initializing Make Environment ... "
 	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	-mv ${DIRECTORY_ROOT_CLIENT}Makefile ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}${MAKEFILE_LOCAL} 2>/dev/null
@@ -95,6 +100,7 @@ boilerplate-activate:
 # 		* Deletes ".clang-tidy" (or restores from backup)
 # 		* Deletes ".pre-commit-config.yaml" (or restores from backup)
 # 		* Deletes "CMakeLists.txt" (or restores from backup)
+# 		* Uninstalls the .pre-commit-config.yaml as a git hook
 # 		* Deletes "make/" directory;
 # 		* Restores client's makefile;
 # 		* Deletes the submodule.
@@ -113,6 +119,10 @@ boilerplate-deinit:
 	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Removing Backup Directory ... "
 	rmdir ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
+	echo "Done!"
+	echo -n "Installing The Pre-Commit Hook ... "
+	pre-commit uninstall
+	pre-commit uninstall --hook-type pre-push
 	echo "Done!"
 	echo -n "Deinitializing Make Environment ..."
 	rm ${DIRECTORY_ROOT_CLIENT}Makefile 	# overwriting is optional, but deletion must be mandatory
@@ -198,4 +208,13 @@ clang-update-tidy:
 clang-update-hook:
 	echo -n "Updating The Pre-Commit Hook ... "
 	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
+	echo "Done!"
+
+# CLANG: Hook Rehook
+# 	WHEN: Execute this if want to reinstall .pre-commit-config.yaml as hook.
+# 	What: Installs it via pre-commit.
+clang-rehook:
+	echo -n "Reinstalling The Pre-Commit Hook ... "
+	pre-commit install
+	pre-commit install --hook-type pre-push
 	echo "Done!"
