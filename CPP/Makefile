@@ -144,7 +144,7 @@ ncu-deactivate:
 # 		Execute this after every Update.
 # 	WHAT: Copy new ncu-compute.mk to user directory for direct usage.
 ncu-refresh:
-	echo -n "Refreshing cmake-* Commands ... "
+	echo -n "Refreshing ncu-* Commands ... "
 	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
 	echo "Done!"
 
