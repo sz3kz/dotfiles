@@ -1,10 +1,11 @@
-.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format
+.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy
 .SILENT:
 
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
 CMAKE_CLIENT_MAKEFILE=cmake.mk
 CLANG_FORMAT_CLIENT_CONFIG_FILE=clang-format-template.txt
+CLANG_TIDY_CLIENT_CONFIG_FILE=clang-tidy-template.txt
 CLANG_CLIENT_MAKEFILE=clang.mk
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
@@ -34,9 +35,13 @@ dotfiles-init:
 	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... "
 	mkdir -p ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
 	echo "Done!"
-	echo -n "Backing up & Syncing clang-format Configs ... "
+	echo -n "Backing up & Syncing clang-format Options ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
 	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-format
+	echo "Synced!"
+	echo -n "Backing up & Syncing clang-tidy Options ... "
+	-mv ${CLIENT_ROOT_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
+	cp ${CLANG_TIDY_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
 	echo "Synced!"
 	echo -n "Backing up CMakeLists.txt & Deploying Template ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
@@ -88,6 +93,9 @@ dotfiles-deinit:
 	echo -n "Deinitializing clang-format ... "
 	rm ${CLIENT_ROOT_DIRECTORY}.clang-format # overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}.clang-format 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	echo -n "Deinitializing clang-tidy ... "
+	rm ${CLIENT_ROOT_DIRECTORY}.clang-tidy # overwriting is optional, but deletion must be mandatory
+	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}.clang-tidy 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Deinitializing CMakeList.txt ... "
 	rm ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
 	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
@@ -153,6 +161,11 @@ clang-refresh:
 	echo "Done!"
 
 clang-update-format:
-	echo -n "Updating clang-format Configs ... "
+	echo -n "Updating clang-format Options ... "
 	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	echo "Done!"
+
+clang-update-tidy:
+	echo -n "Updating clang-tidy Options ... "
+	cp ${CLANG_TIDY_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
 	echo "Done!"
