@@ -4,8 +4,6 @@
 REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
 CMAKE_CLIENT_MAKEFILE=cmake.mk
-CLANG_FORMAT_CLIENT_CONFIG_FILE=clang-format-template.txt
-CLANG_TIDY_CLIENT_CONFIG_FILE=clang-tidy-template.txt
 CLANG_CLIENT_MAKEFILE=clang.mk
 NCU_CLIENT_MAKEFILE=ncu-compute.mk
 DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
@@ -20,6 +18,8 @@ BACKUP_DIRECTORY=.dotfiles-backup/
 NCU_BINARY_DIRECTORY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 
 CMAKE_TEMPLATE=cmakelists-root-template.txt
+TEMPLATE_CLANG_FORMAT=clang-format-template.txt
+TEMPLATE_CLANG_TIDY=clang-tidy-template.txt
 
 # Initialization
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
@@ -37,11 +37,11 @@ dotfiles-init:
 	echo "Done!"
 	echo -n "Backing up & Syncing clang-format Options ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-format
+	cp ${TEMPLATE_CLANG_FORMAT} ${CLIENT_ROOT_DIRECTORY}.clang-format
 	echo "Synced!"
 	echo -n "Backing up & Syncing clang-tidy Options ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${CLANG_TIDY_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
+	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
 	echo "Synced!"
 	echo -n "Backing up CMakeLists.txt & Deploying Template ... "
 	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
@@ -162,10 +162,10 @@ clang-refresh:
 
 clang-update-format:
 	echo -n "Updating clang-format Options ... "
-	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-format
+	cp ${TEMPLATE_CLANG_FORMAT} ${CLIENT_ROOT_DIRECTORY}.clang-format
 	echo "Done!"
 
 clang-update-tidy:
 	echo -n "Updating clang-tidy Options ... "
-	cp ${CLANG_TIDY_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
+	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
 	echo "Done!"
