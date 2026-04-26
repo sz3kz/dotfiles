@@ -149,10 +149,16 @@ ncu-refresh:
 	echo "Done!"
 
 clang-format-refresh:
+	echo -n "Refreshing clang-format-* Commands ... "
 	cp ${CLANG_FORMAT_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	echo "Done!"
 
 clang-format-format:
+	echo -n "Formatting ${CLANG_FORMAT_TARGET_FILE} via clang-format ... "
 	cd ${CLIENT_ROOT_DIRECTORY} && clang-format -i -style=file $(CLANG_FORMAT_TARGET_FILE)
+	echo "Done!"
 
 clang-format-config-update:
-	-cp -i ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	echo -n "Updating clang-format Configs ... "
+	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	echo "Done!"
