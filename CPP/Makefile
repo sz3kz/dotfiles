@@ -56,8 +56,8 @@ boilerplate-init:
 	cp ${TEMPLATE_CMAKE_ROOT} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
 	echo "Synced!"
 	echo -n "Installing The Pre-Commit Hook ... "
-	pre-commit install
-	pre-commit install --hook-type pre-push
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push
 	echo "Done!"
 	echo -n "Initializing Make Environment ... "
 	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
@@ -121,8 +121,8 @@ boilerplate-deinit:
 	rmdir ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
 	echo -n "Installing The Pre-Commit Hook ... "
-	pre-commit uninstall
-	pre-commit uninstall --hook-type pre-push
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit uninstall
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit uninstall --hook-type pre-push
 	echo "Done!"
 	echo -n "Deinitializing Make Environment ..."
 	rm ${DIRECTORY_ROOT_CLIENT}Makefile 	# overwriting is optional, but deletion must be mandatory
@@ -215,6 +215,6 @@ clang-update-hook:
 # 	What: Installs it via pre-commit.
 clang-rehook:
 	echo -n "Reinstalling The Pre-Commit Hook ... "
-	pre-commit install
-	pre-commit install --hook-type pre-push
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push
 	echo "Done!"
