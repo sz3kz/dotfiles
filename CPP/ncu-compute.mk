@@ -1,7 +1,7 @@
 .PHONY: ncu-activate ncu-deactivate ncu-refresh 
 .SILENT:
 
-SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/
+SERVER_MAKEFILE_DIRECTORY=external/boilerplate/CPP/
 
 ncu-activate:
 	cd ${SERVER_MAKEFILE_DIRECTORY} && make ncu-activate

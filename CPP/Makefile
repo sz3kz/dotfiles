@@ -1,19 +1,19 @@
-.PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy
+.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy
 .SILENT:
 
 
 MAKEFILE_CMAKE=cmake.mk
 MAKEFILE_CLANG=clang.mk
 MAKEFILE_NCU=ncu-compute.mk
-MAKEFILE_DOTFILES=dotfiles.mk
+MAKEFILE_DOTFILES=boilerplate.mk
 MAKEFILE_LOCAL=local.mk
 MAKEFILE_CLIENT=Client.mk
 
-PATH_SUBMODULE=external/dotfiles
-DIRECTORY_ROOT_SUBMODULE=external/dotfiles/
+PATH_SUBMODULE=external/boilerplate
+DIRECTORY_ROOT_SUBMODULE=external/boilerplate/
 DIRECTORY_ROOT_CLIENT=../../../
 DIRECTORY_MAKE=make/
-DIRECTORY_BACKUP=.dotfiles-backup/
+DIRECTORY_BACKUP=.boilerplate-backup/
 DIRECTORY_NCU_CLIENT=.ncu-compute-profiler/
 DIRECTORY_NCU_BINARY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 
@@ -24,7 +24,7 @@ TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 
 # Initialization
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
-# 		Should be ran by the user directly inside the dotfiles/CPP/ directory.
+# 		Should be ran by the user directly inside the boilerplate/CPP/ directory.
 # 	WHEN: Execute this after adding the repository as a submodule (+ sparsing the file tree).
 # 	WHAT:
 # 		* Backs up root repository's ".clang-format" + syncs clang-format options
@@ -34,7 +34,7 @@ TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 # 		* Creates "make/";
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
-dotfiles-init:
+boilerplate-init:
 	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... "
 	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
@@ -61,19 +61,19 @@ dotfiles-init:
 	echo "Done!"
 
 # Refresh(1)
-# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 	WHEN: Execute this after Initialization in the boilerplate/CPP/ directory.
 # 		Execute this after every Update.
-# 	WHAT: Copy new dotfiles.mk to user directory for direct usage.
-dotfiles-refresh:
-	echo -n "Refreshing dotfiles-* Commands ... "
+# 	WHAT: Copy new boilerplate.mk to user directory for direct usage.
+boilerplate-refresh:
+	echo -n "Refreshing boilerplate-* Commands ... "
 	cp ${MAKEFILE_DOTFILES} ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	echo "Done!"
 
 # Update
 # 	WHEN: Execute this if want to update submodule.
 # 	WHAT: Move submodule to latest commit.
-dotfiles-update:
-	echo "Updating dotfiles Submodule:"
+boilerplate-update:
+	echo "Updating boilerplate Submodule:"
 	cd ${DIRECTORY_ROOT_CLIENT} && git submodule update --init --remote ${PATH_SUBMODULE}
 	echo "Done!"
 
@@ -83,8 +83,8 @@ dotfiles-update:
 # 		(*) This target will reset submodule to the version registered by
 # 		the last commit, so if user wants to revert submodule version
 # 		after Update but BEFORE commiting, this is their go-to.
-dotfiles-activate:
-	echo -n "Activating dotfiles Submodule ... "
+boilerplate-activate:
+	echo -n "Activating boilerplate Submodule ... "
 	git submodule update --init
 	echo "Done!"
 
@@ -98,7 +98,7 @@ dotfiles-activate:
 # 		* Deletes "make/" directory;
 # 		* Restores client's makefile;
 # 		* Deletes the submodule.
-dotfiles-deinit:
+boilerplate-deinit:
 	echo -n "Deinitializing clang-format ... "
 	rm ${DIRECTORY_ROOT_CLIENT}.clang-format # overwriting is optional, but deletion must be mandatory
 	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}.clang-format ${DIRECTORY_ROOT_CLIENT}.clang-format 2>/dev/null && echo "Reverted!" || echo "Deleted!"
@@ -122,7 +122,7 @@ dotfiles-deinit:
 	cd ${DIRECTORY_ROOT_CLIENT} && git submodule deinit -f ${PATH_SUBMODULE} && git rm ${DIRECTORY_ROOT_SUBMODULE} && echo "Done!"
 
 # CMAKE: Retemplation
-# 	WHEN: Execute after Initialization in the dotfiles/CPP/ directory.
+# 	WHEN: Execute after Initialization in the boilerplate/CPP/ directory.
 # 		Execute this after Update introduced changes to CMakeLists-Root-Template.txt .
 # 	What: Overwrites / Copies the CMakeLists-Root-Template.txt to client.
 cmake-retemplate: 
@@ -131,7 +131,7 @@ cmake-retemplate:
 	echo "Done!"
 
 # CMAKE: Refresh(2):
-# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 	WHEN: Execute this after Initialization in the boilerplate/CPP/ directory.
 # 		Execute this after every Update.
 # 	WHAT: Copy new cmake.mk to user directory for direct usage.
 cmake-refresh:
@@ -159,7 +159,7 @@ ncu-deactivate:
 	echo "Done!"
 
 # NCU: Refresh(3):
-# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 	WHEN: Execute this after Initialization in the boilerplate/CPP/ directory.
 # 		Execute this after every Update.
 # 	WHAT: Copy new ncu-compute.mk to user directory for direct usage.
 ncu-refresh:
@@ -168,7 +168,7 @@ ncu-refresh:
 	echo "Done!"
 
 # CLANG: Refresh(4):
-# 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
+# 	WHEN: Execute this after Initialization in the boilerplate/CPP/ directory.
 # 		Execute this after every Update.
 # 	WHAT: Copy new clang.mk to user directory for direct usage.
 clang-refresh:

@@ -1,7 +1,7 @@
 .PHONY: clang-refresh clang-update-format clang-update-tidy
 .SILENT:
 
-SERVER_MAKEFILE_DIRECTORY=external/dotfiles/CPP/
+SERVER_MAKEFILE_DIRECTORY=external/boilerplate/CPP/
 
 clang-refresh:
 	cd ${SERVER_MAKEFILE_DIRECTORY} && make clang-refresh

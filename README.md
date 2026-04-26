@@ -1,23 +1,18 @@
-# dotfiles
-Collection of configurations of my favourite tools!
+# boilerplate
+Automatic Development Environment Deployment Tool
 
 ## How to use
-### CPP
 ```bash
 # Add this repo as a submodule
-git submodule add --force --depth 1 https://github.com/sz3kz/dotfiles.git external/dotfiles/
-
-# Initialize it
-cd external/dotfiles/CPP/
-make dotfiles-init
+git submodule add --force --depth 1 https://github.com/sz3kz/boilerplate.git external/boilerplate/
 ```
-Things you would probably want ( Still in CPP/ directory)
+### CPP
 ```bash
-# Expose make commands
-make dotfiles-refresh
-make cmake-refresh
-make ncu-refresh
+# Initialize it
+cd external/boilerplate/CPP/
+make boilerplate-init
 
-# deploy the CMakeLists.txt template
-make cmake-retemplate
+# Expose make commands
+make boilerplate-refresh
+make cmake-refresh
 ```
