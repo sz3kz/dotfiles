@@ -1,23 +1,23 @@
 .PHONY: dotfiles-init dotfiles-refresh dotfiles-update dotfiles-activate dotfiles-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy
 .SILENT:
 
-REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
 
-CMAKE_CLIENT_MAKEFILE=cmake.mk
-CLANG_CLIENT_MAKEFILE=clang.mk
-NCU_CLIENT_MAKEFILE=ncu-compute.mk
-DOTFILES_CLIENT_MAKEFILE=dotfiles.mk
-LOCAL_CLIENT_MAKEFILE=local.mk
-MAKEFILE_CLIENT_MAKEFILE=Client.mk
+MAKEFILE_CMAKE=cmake.mk
+MAKEFILE_CLANG=clang.mk
+MAKEFILE_NCU=ncu-compute.mk
+MAKEFILE_DOTFILES=dotfiles.mk
+MAKEFILE_LOCAL=local.mk
+MAKEFILE_CLIENT=Client.mk
 
-CLIENT_ROOT_DIRECTORY=../../../
-MAKEFILE_DIRECTORY=make/
-NCU_DIRECTORY=.ncu-compute-profiler/
-BACKUP_DIRECTORY=.dotfiles-backup/
+PATH_SUBMODULE=external/dotfiles
+DIRECTORY_ROOT_SUBMODULE=external/dotfiles/
+DIRECTORY_ROOT_CLIENT=../../../
+DIRECTORY_MAKE=make/
+DIRECTORY_BACKUP=.dotfiles-backup/
+DIRECTORY_NCU_CLIENT=.ncu-compute-profiler/
+DIRECTORY_NCU_BINARY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 
-NCU_BINARY_DIRECTORY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
-
-CMAKE_TEMPLATE=cmakelists-root-template.txt
+TEMPLATE_CMAKE_ROOT=cmakelists-root-template.txt
 TEMPLATE_CLANG_FORMAT=clang-format-template.txt
 TEMPLATE_CLANG_TIDY=clang-tidy-template.txt
 TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
@@ -36,28 +36,28 @@ TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 # 		* Creates the client's Makefile.
 dotfiles-init:
 	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... "
-	mkdir -p ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
 	echo -n "Backing up & Syncing clang-format Options ... "
-	-mv ${CLIENT_ROOT_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${TEMPLATE_CLANG_FORMAT} ${CLIENT_ROOT_DIRECTORY}.clang-format
+	-mv ${DIRECTORY_ROOT_CLIENT}.clang-format ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
+	cp ${TEMPLATE_CLANG_FORMAT} ${DIRECTORY_ROOT_CLIENT}.clang-format
 	echo "Synced!"
 	echo -n "Backing up & Syncing clang-tidy Options ... "
-	-mv ${CLIENT_ROOT_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
+	-mv ${DIRECTORY_ROOT_CLIENT}.clang-tidy ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
+	cp ${TEMPLATE_CLANG_TIDY} ${DIRECTORY_ROOT_CLIENT}.clang-tidy
 	echo "Synced!"
 	echo -n "Backing up & Syncing The Pre-Commit Hook ... "
-	-mv ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml
+	-mv ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
+	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
 	echo "Synced!"
 	echo -n "Backing up CMakeLists.txt & Deploying Template ... "
-	-mv ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY} 2>/dev/null && echo -n "Backed up & "
-	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+	-mv ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
+	cp ${TEMPLATE_CMAKE_ROOT} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
 	echo "Synced!"
 	echo -n "Initializing Make Environment ... "
-	mkdir -p ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
-	-mv ${CLIENT_ROOT_DIRECTORY}Makefile ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} 2>/dev/null
-	cp ${MAKEFILE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile
+	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
+	-mv ${DIRECTORY_ROOT_CLIENT}Makefile ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}${MAKEFILE_LOCAL} 2>/dev/null
+	cp ${MAKEFILE_CLIENT} ${DIRECTORY_ROOT_CLIENT}Makefile
 	echo "Done!"
 
 # Refresh(1)
@@ -66,7 +66,7 @@ dotfiles-init:
 # 	WHAT: Copy new dotfiles.mk to user directory for direct usage.
 dotfiles-refresh:
 	echo -n "Refreshing dotfiles-* Commands ... "
-	cp ${DOTFILES_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	cp ${MAKEFILE_DOTFILES} ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	echo "Done!"
 
 # Update
@@ -74,7 +74,7 @@ dotfiles-refresh:
 # 	WHAT: Move submodule to latest commit.
 dotfiles-update:
 	echo "Updating dotfiles Submodule:"
-	cd ${CLIENT_ROOT_DIRECTORY} && git submodule update --init --remote
+	cd ${DIRECTORY_ROOT_CLIENT} && git submodule update --init --remote ${PATH_SUBMODULE}
 	echo "Done!"
 
 # Activation
@@ -100,26 +100,26 @@ dotfiles-activate:
 # 		* Deletes the submodule.
 dotfiles-deinit:
 	echo -n "Deinitializing clang-format ... "
-	rm ${CLIENT_ROOT_DIRECTORY}.clang-format # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-format ${CLIENT_ROOT_DIRECTORY}.clang-format 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	rm ${DIRECTORY_ROOT_CLIENT}.clang-format # overwriting is optional, but deletion must be mandatory
+	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}.clang-format ${DIRECTORY_ROOT_CLIENT}.clang-format 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Deinitializing clang-tidy ... "
-	rm ${CLIENT_ROOT_DIRECTORY}.clang-tidy # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.clang-tidy ${CLIENT_ROOT_DIRECTORY}.clang-tidy 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	rm ${DIRECTORY_ROOT_CLIENT}.clang-tidy # overwriting is optional, but deletion must be mandatory
+	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}.clang-tidy ${DIRECTORY_ROOT_CLIENT}.clang-tidy 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Deinitializing The Pre-Commit Hook ... "
-	rm ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}.pre-commit-config.yaml ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	rm ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml # overwriting is optional, but deletion must be mandatory
+	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}.pre-commit-config.yaml ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Deinitializing CMakeList.txt ... "
-	rm ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}CMakeLists.txt ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	rm ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
+	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Removing Backup Directory ... "
-	rmdir ${CLIENT_ROOT_DIRECTORY}${BACKUP_DIRECTORY}
+	rmdir ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
 	echo -n "Deinitializing Make Environment ..."
-	rm ${CLIENT_ROOT_DIRECTORY}Makefile 	# overwriting is optional, but deletion must be mandatory
-	-mv ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}${LOCAL_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}Makefile 2>/dev/null && echo "Reverted!" || echo "Deleted!"
-	rm -r ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	rm ${DIRECTORY_ROOT_CLIENT}Makefile 	# overwriting is optional, but deletion must be mandatory
+	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}${MAKEFILE_LOCAL} ${DIRECTORY_ROOT_CLIENT}Makefile 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	rm -r ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	echo "Removing Submodule: "
-	cd ${CLIENT_ROOT_DIRECTORY} && git submodule deinit -f external/dotfiles && git rm external/dotfiles/ && echo "Done!"
+	cd ${DIRECTORY_ROOT_CLIENT} && git submodule deinit -f ${PATH_SUBMODULE} && git rm ${DIRECTORY_ROOT_SUBMODULE} && echo "Done!"
 
 # CMAKE: Retemplation
 # 	WHEN: Execute after Initialization in the dotfiles/CPP/ directory.
@@ -127,7 +127,7 @@ dotfiles-deinit:
 # 	What: Overwrites / Copies the CMakeLists-Root-Template.txt to client.
 cmake-retemplate: 
 	echo -n "Redeploying Template ... "
-	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+	cp ${TEMPLATE_CMAKE_ROOT} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
 	echo "Done!"
 
 # CMAKE: Refresh(2):
@@ -136,7 +136,7 @@ cmake-retemplate:
 # 	WHAT: Copy new cmake.mk to user directory for direct usage.
 cmake-refresh:
 	echo -n "Refreshing cmake-* Commands ... "
-	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	cp ${MAKEFILE_CMAKE} ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	echo "Done!"
 
 # NCU: Activation
@@ -144,9 +144,9 @@ cmake-refresh:
 # 	WHAT: Copies section directory (solves hard-coded RO paths problem on NixOS).
 ncu-activate:
 	echo -n "Activating nsight-compute Section Directory ... "
-	mkdir -p ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
-	cp ${NCU_BINARY_DIRECTORY}/sections/*.section ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
-	cp ${NCU_BINARY_DIRECTORY}/sections/*.py ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_NCU_CLIENT}
+	cp ${DIRECTORY_NCU_BINARY}/sections/*.section ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_NCU_CLIENT}
+	cp ${DIRECTORY_NCU_BINARY}/sections/*.py ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_NCU_CLIENT}
 	echo "Done!"
 
 
@@ -155,7 +155,7 @@ ncu-activate:
 # 	WHAT: Deletes ncu section directory.
 ncu-deactivate:
 	echo -n "Deactivating nsight-compute Section Directory ... "
-	rm -rf ${CLIENT_ROOT_DIRECTORY}${NCU_DIRECTORY}
+	rm -rf ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_NCU_CLIENT}
 	echo "Done!"
 
 # NCU: Refresh(3):
@@ -164,7 +164,7 @@ ncu-deactivate:
 # 	WHAT: Copy new ncu-compute.mk to user directory for direct usage.
 ncu-refresh:
 	echo -n "Refreshing ncu-* Commands ... "
-	cp ${NCU_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	cp ${MAKEFILE_NCU} ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	echo "Done!"
 
 # CLANG: Refresh(4):
@@ -173,7 +173,7 @@ ncu-refresh:
 # 	WHAT: Copy new clang.mk to user directory for direct usage.
 clang-refresh:
 	echo -n "Refreshing clang-* Commands ... "
-	cp ${CLANG_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	cp ${MAKEFILE_CLANG} ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
 	echo "Done!"
 
 # CLANG: Format Update
@@ -181,7 +181,7 @@ clang-refresh:
 # 	What: Overwrites / Copies the clang-format options to client.
 clang-update-format:
 	echo -n "Updating clang-format Options ... "
-	cp ${TEMPLATE_CLANG_FORMAT} ${CLIENT_ROOT_DIRECTORY}.clang-format
+	cp ${TEMPLATE_CLANG_FORMAT} ${DIRECTORY_ROOT_CLIENT}.clang-format
 	echo "Done!"
 
 # CLANG: Tidy Update
@@ -189,7 +189,7 @@ clang-update-format:
 # 	What: Overwrites / Copies the clang-tidy options to client.
 clang-update-tidy:
 	echo -n "Updating clang-tidy Options ... "
-	cp ${TEMPLATE_CLANG_TIDY} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
+	cp ${TEMPLATE_CLANG_TIDY} ${DIRECTORY_ROOT_CLIENT}.clang-tidy
 	echo "Done!"
 
 # CLANG: Hook Update
@@ -197,5 +197,5 @@ clang-update-tidy:
 # 	What: Overwrites / Copies the .pre-commit-config.yaml template to client.
 clang-update-hook:
 	echo -n "Updating The Pre-Commit Hook ... "
-	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${CLIENT_ROOT_DIRECTORY}.pre-commit-config.yaml
+	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
 	echo "Done!"
