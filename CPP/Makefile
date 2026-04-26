@@ -107,14 +107,18 @@ dotfiles-deinit:
 # 		Execute this after Update introduced changes to CMakeLists-Root-Template.txt .
 # 	What: Overwrites / Copies the CMakeLists-Root-Template.txt to client.
 cmake-retemplate: 
+	echo -n "Redeploying Template ... "
 	cp ${CMAKE_TEMPLATE} ${CLIENT_ROOT_DIRECTORY}CMakeLists.txt
+	echo "Done!"
 
 # CMAKE: Refresh(2):
 # 	WHEN: Execute this after Initialization in the dotfiles/CPP/ directory.
 # 		Execute this after every Update.
 # 	WHAT: Copy new cmake.mk to user directory for direct usage.
 cmake-refresh:
+	echo -n "Refreshing cmake-* Commands ... "
 	cp ${CMAKE_CLIENT_MAKEFILE} ${CLIENT_ROOT_DIRECTORY}${MAKEFILE_DIRECTORY}
+	echo "Done!"
 
 # NCU: Activation
 # 	WHEN: Execute after git cloning repository that uses submodule.
