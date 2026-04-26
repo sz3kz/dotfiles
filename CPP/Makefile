@@ -154,7 +154,7 @@ clang-format-refresh:
 	echo "Done!"
 
 clang-format-format:
-	echo -n "Formatting ${CLANG_FORMAT_TARGET_FILE} via clang-format ... "
+	echo -n "Formatting \"${CLANG_FORMAT_TARGET_FILE}\" via clang-format ... "
 	cd ${CLIENT_ROOT_DIRECTORY} && clang-format -i -style=file $(CLANG_FORMAT_TARGET_FILE)
 	echo "Done!"
 
