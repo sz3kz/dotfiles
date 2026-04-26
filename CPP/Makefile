@@ -162,10 +162,10 @@ clang-refresh:
 
 clang-update-format:
 	echo -n "Updating clang-format Options ... "
-	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	cp ${CLANG_FORMAT_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-format
 	echo "Done!"
 
 clang-update-tidy:
 	echo -n "Updating clang-tidy Options ... "
-	cp ${CLANG_TIDY_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}
+	cp ${CLANG_TIDY_CLIENT_CONFIG_FILE} ${CLIENT_ROOT_DIRECTORY}.clang-tidy
 	echo "Done!"
