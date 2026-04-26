@@ -1,19 +1,19 @@
-.PHONY: dotfiles-activate dotfiles-update dotfiles-deinit dotfiles-refresh
+.PHONY: boilerplate-activate boilerplate-update boilerplate-deinit boilerplate-refresh
 .SILENT:
 
-REPOSITORY_ROOT_DIRECTORY=external/dotfiles/
+REPOSITORY_ROOT_DIRECTORY=external/boilerplate/
 LANGUAGE_DIRECTORY=CPP/
 
-dotfiles-activate:
+boilerplate-activate:
 	git submodule update --init
 	cd ${REPOSITORY_ROOT_DIRECTORY} && git sparse-checkout init --cone
 	cd ${REPOSITORY_ROOT_DIRECTORY} && git sparse-checkout set ${LANGUAGE_DIRECTORY}
 
-dotfiles-update:
-	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make dotfiles-update
+boilerplate-update:
+	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make boilerplate-update
 
-dotfiles-deinit:
-	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make dotfiles-deinit
+boilerplate-deinit:
+	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make boilerplate-deinit
 
-dotfiles-refresh:
-	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make dotfiles-refresh
+boilerplate-refresh:
+	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make boilerplate-refresh
