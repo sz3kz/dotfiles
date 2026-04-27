@@ -1,4 +1,4 @@
-.PHONY: boilerplate-activate boilerplate-update boilerplate-deinit boilerplate-refresh
+.PHONY: boilerplate-activate boilerplate-update boilerplate-deinit boilerplate-refresh boilerplate-check-prerequesites
 .SILENT:
 
 REPOSITORY_ROOT_DIRECTORY=external/boilerplate/
@@ -17,3 +17,6 @@ boilerplate-deinit:
 
 boilerplate-refresh:
 	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make boilerplate-refresh
+
+boilerplate-check-prerequesites:
+	cd ${REPOSITORY_ROOT_DIRECTORY}${LANGUAGE_DIRECTORY} && make boilerplate-check-prerequesites

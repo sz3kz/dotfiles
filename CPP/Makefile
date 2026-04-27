@@ -1,4 +1,4 @@
-.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy clang-rehook
+.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit boilerplate-check-prerequesites cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy clang-rehook
 .SILENT:
 
 
@@ -22,6 +22,41 @@ TEMPLATE_CLANG_FORMAT=clang-format-template.txt
 TEMPLATE_CLANG_TIDY=clang-tidy-template.txt
 TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 
+
+# Prerequesite Checking
+# 	WHEN: Execute this if want to check needed software for the project to work.
+# 		Should ideally be only ran as a dependency of boilerplate-init .
+# 	What: Checks if installed:
+# 		* make;
+# 		* cmake;
+# 		* pre-commit;
+# 		* git;
+# 		* clang;
+# 		* clang-format;
+# 		* clang-tidy.
+boilerplate-check-prerequesites:
+	echo -n "Checking Prerequesite make: "
+	command -v make >/dev/null
+	echo "Installed!"
+	echo -n "Checking Prerequesite cmake: "
+	command -v cmake >/dev/null
+	echo "Installed!"
+	echo -n "Checking Prerequesite pre-commit: "
+	command -v pre-commit >/dev/null
+	echo "Installed!"
+	echo -n "Checking Prerequesite git: "
+	command -v git >/dev/null
+	echo "Installed!"
+	echo -n "Checking Prerequesite clang: "
+	command -v clang >/dev/null
+	echo "Installed!"
+	echo -n "Checking Prerequesite clang-format: "
+	command -v clang-format >/dev/null
+	echo "Installed!"
+	echo -n "Checking Prerequesite clang-tidy: "
+	command -v clang-tidy >/dev/null
+	echo "Installed!"
+
 # Initialization
 # 	NOTE: Ran when migrating a repository to use this centralized CMAKE submodule.
 # 		Should be ran by the user directly inside the boilerplate/CPP/ directory.
@@ -35,7 +70,7 @@ TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
 # 		* Creates "make/";
 # 		* Saves client's Makefile via copy to "make/";
 # 		* Creates the client's Makefile.
-boilerplate-init:
+boilerplate-init: boilerplate-check-prerequesites
 	echo -n "Initializing Backup Directory (Ensuring It's Existence) ... "
 	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
