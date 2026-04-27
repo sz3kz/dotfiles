@@ -3,6 +3,7 @@
 
 
 MAKEFILE_CMAKE=cmake.mk
+MAKEFILE_GIT=git.mk
 MAKEFILE_CLANG=clang.mk
 MAKEFILE_NCU=ncu-compute.mk
 MAKEFILE_DOTFILES=boilerplate.mk
@@ -21,6 +22,7 @@ TEMPLATE_CMAKE_ROOT=cmakelists-root-template.txt
 TEMPLATE_CLANG_FORMAT=clang-format-template.txt
 TEMPLATE_CLANG_TIDY=clang-tidy-template.txt
 TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
+TEMPLATE_GITIGNORE=gitignore-template.txt
 
 
 # Prerequesite Checking
@@ -91,6 +93,10 @@ boilerplate-init: boilerplate-check-prerequesites
 	-mv ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
 	cp ${TEMPLATE_CMAKE_ROOT} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
 	echo "Synced!"
+	echo -n "Backing up .gitignore & Deploying Template ... "
+	-mv ${DIRECTORY_ROOT_CLIENT}.gitignore ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
+	cp ${TEMPLATE_GITIGNORE} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
+	echo "Synced!"
 	echo -n "Installing The Pre-Commit Hook ... "
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push
@@ -153,6 +159,9 @@ boilerplate-deinit:
 	echo -n "Deinitializing CMakeList.txt ... "
 	rm ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt # overwriting is optional, but deletion must be mandatory
 	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt 2>/dev/null && echo "Reverted!" || echo "Deleted!"
+	echo -n "Deinitializing .gitignore ... "
+	rm ${DIRECTORY_ROOT_CLIENT}.gitignore # overwriting is optional, but deletion must be mandatory
+	-mv ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}.gitignore ${DIRECTORY_ROOT_CLIENT}.gitignore 2>/dev/null && echo "Reverted!" || echo "Deleted!"
 	echo -n "Removing Backup Directory ... "
 	rmdir ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
@@ -253,4 +262,21 @@ clang-rehook:
 	echo -n "Reinstalling The Pre-Commit Hook ... "
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install >/dev/null
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push >/dev/null
+	echo "Done!"
+
+# GIT: Refresh(5):
+# 	WHEN: Execute this after Initialization in the boilerplate/CPP/ directory.
+# 		Execute this after every Update.
+# 	WHAT: Copy new git.mk to user directory for direct usage.
+git-refresh:
+	echo -n "Refreshing git-* Commands ... "
+	cp ${MAKEFILE_GIT} ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
+	echo "Done!"
+
+# GIT : Gitignore Update
+# 	WHEN: Execute this if want to update .gitignore .
+# 	What: Overwrites / Copies the .gitignore template to client.
+git-update-ignore:
+	echo -n "Updating .gitignore ... "
+	cp ${TEMPLATE_GITIGNORE} ${DIRECTORY_ROOT_CLIENT}.gitignore
 	echo "Done!"
