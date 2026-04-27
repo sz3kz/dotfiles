@@ -96,7 +96,7 @@ boilerplate-init: boilerplate-check-prerequesites
 	echo "Synced!"
 	echo -n "Backing up .gitignore & Deploying Template ... "
 	-mv ${DIRECTORY_ROOT_CLIENT}.gitignore ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
-	cp ${TEMPLATE_GITIGNORE} ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt
+	cp ${TEMPLATE_GITIGNORE} ${DIRECTORY_ROOT_CLIENT}.gitignore
 	echo "Synced!"
 	echo -n "Installing The Pre-Commit Hook ... "
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install
