@@ -24,4 +24,5 @@ make boilerplate-init
 make boilerplate-refresh
 make cmake-refresh
 make clang-refresh
+make git-refresh
 ```

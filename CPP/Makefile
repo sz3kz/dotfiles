@@ -69,6 +69,7 @@ boilerplate-check-prerequesites:
 # 		* Backs up root repository's ".clang-tidy" + syncs clang-tidy options
 # 		* Backs up root repository's ".pre-commit-config.yaml" + syncs the clang pre-commit hook
 # 		* Backs up root repository's "CMakeLists.txt" + syncs CMakeLists.txt configuration
+# 		* Backs up root repository's ".gitignore" + syncs .gitignore entries
 # 		* Installs the .pre-commit-config.yaml as a git hook
 # 		* Creates "make/";
 # 		* Saves client's Makefile via copy to "make/";
@@ -142,6 +143,7 @@ boilerplate-activate:
 # 		* Deletes ".clang-tidy" (or restores from backup)
 # 		* Deletes ".pre-commit-config.yaml" (or restores from backup)
 # 		* Deletes "CMakeLists.txt" (or restores from backup)
+# 		* Deletes ".gitignore" (or restores from backup)
 # 		* Uninstalls the .pre-commit-config.yaml as a git hook
 # 		* Deletes "make/" directory;
 # 		* Restores client's makefile;
