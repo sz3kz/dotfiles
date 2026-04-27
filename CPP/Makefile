@@ -99,8 +99,8 @@ boilerplate-init: boilerplate-check-prerequesites
 	cp ${TEMPLATE_GITIGNORE} ${DIRECTORY_ROOT_CLIENT}.gitignore
 	echo "Synced!"
 	echo -n "Installing The Pre-Commit Hook ... "
-	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install
-	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install >/dev/null
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push >/dev/null
 	echo "Done!"
 	echo -n "Initializing Make Environment ... "
 	mkdir -p ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_MAKE}
@@ -167,9 +167,9 @@ boilerplate-deinit:
 	echo -n "Removing Backup Directory ... "
 	rmdir ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP}
 	echo "Done!"
-	echo -n "Installing The Pre-Commit Hook ... "
-	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit uninstall
-	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit uninstall --hook-type pre-push
+	echo -n "Uninstalling The Pre-Commit Hook ... "
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit uninstall >/dev/null
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit uninstall --hook-type pre-push >/dev/null
 	echo "Done!"
 	echo -n "Deinitializing Make Environment ..."
 	rm ${DIRECTORY_ROOT_CLIENT}Makefile 	# overwriting is optional, but deletion must be mandatory
