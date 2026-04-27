@@ -215,6 +215,6 @@ clang-update-hook:
 # 	What: Installs it via pre-commit.
 clang-rehook:
 	echo -n "Reinstalling The Pre-Commit Hook ... "
-	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install
-	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install >/dev/null
+	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push >/dev/null
 	echo "Done!"
