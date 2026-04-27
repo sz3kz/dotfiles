@@ -131,7 +131,7 @@ boilerplate-update:
 # 		(*) This target will reset submodule to the version registered by
 # 		the last commit, so if user wants to revert submodule version
 # 		after Update but BEFORE commiting, this is their go-to.
-boilerplate-activate:
+boilerplate-activate: boilerplate-check-prerequesites
 	echo -n "Activating boilerplate Submodule ... "
 	git submodule update --init
 	echo "Done!"
