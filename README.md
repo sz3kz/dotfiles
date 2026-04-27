@@ -1,6 +1,14 @@
 # boilerplate
 Automatic Development Environment Deployment Tool
 
+## Requirements
+Software used by the repository:
+* make
+* cmake
+* pre-commit
+* git
+* clang suite (???)
+
 ## How to use
 ```bash
 # Add this repo as a submodule
