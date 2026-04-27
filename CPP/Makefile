@@ -1,4 +1,4 @@
-.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit boilerplate-check-prerequesites cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy clang-rehook
+.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit boilerplate-check-prerequesites cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy git-rehook
 .SILENT:
 
 
@@ -257,10 +257,10 @@ clang-update-hook:
 	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
 	echo "Done!"
 
-# CLANG: Hook Rehook
+# GIT: Hook Rehook
 # 	WHEN: Execute this if want to reinstall .pre-commit-config.yaml as hook.
 # 	What: Installs it via pre-commit.
-clang-rehook:
+git-rehook:
 	echo -n "Reinstalling The Pre-Commit Hook ... "
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install >/dev/null
 	cd ${DIRECTORY_ROOT_CLIENT} && pre-commit install --hook-type pre-push >/dev/null
