@@ -14,5 +14,10 @@ repos:
         stages: [pre-push]
         args: ["-p=./build/"]
       - id: cppcheck
-        stages: [commit]
-        args: ["--project=build/compile_commands.json", "--enable=all", "--suppress=missingIncludeSystem"]
+        stages: [pre-commit]
+        args: [
+          "--enable=all",
+          "--inline-suppr",
+          "--suppress=missingIncludeSystem",
+          "--suppress=unmatchedSuppression"
+        ]
