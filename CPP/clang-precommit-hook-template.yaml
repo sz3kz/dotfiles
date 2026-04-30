@@ -13,3 +13,6 @@ repos:
       - id: clang-tidy
         stages: [pre-push]
         args: ["-p=./build/"]
+      - id: cppcheck
+        stages: [commit]
+        args: ["--project=build/compile_commands.json", "--enable=all", "--suppress=missingIncludeSystem"]
