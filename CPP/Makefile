@@ -1,4 +1,4 @@
-.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit boilerplate-check-prerequesites cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy git-rehook
+.PHONY: boilerplate-init boilerplate-refresh boilerplate-update boilerplate-activate boilerplate-deinit boilerplate-check-prerequesites cmake-retemplate cmake-refresh ncu-activate ncu-deactivate ncu-refresh clang-refresh clang-update-format clang-update-tidy git-rehook git-update-hook git-update-ignore git-refresh
 .SILENT:
 
 
@@ -21,7 +21,7 @@ DIRECTORY_NCU_BINARY="$(shell dirname $(shell readlink -f $(shell which ncu)))"
 TEMPLATE_CMAKE_ROOT=cmakelists-root-template.txt
 TEMPLATE_CLANG_FORMAT=clang-format-template.txt
 TEMPLATE_CLANG_TIDY=clang-tidy-template.txt
-TEMPLATE_CLANG_PRECOMMIT_HOOK=clang-precommit-hook-template.yaml
+TEMPLATE_GIT_PRECOMMIT_HOOK=git-precommit-hook-template.yaml
 TEMPLATE_GITIGNORE=gitignore-template.txt
 
 
@@ -88,7 +88,7 @@ boilerplate-init: boilerplate-check-prerequesites
 	echo "Synced!"
 	echo -n "Backing up & Syncing The Pre-Commit Hook ... "
 	-mv ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
-	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
+	cp ${TEMPLATE_GIT_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
 	echo "Synced!"
 	echo -n "Backing up CMakeLists.txt & Deploying Template ... "
 	-mv ${DIRECTORY_ROOT_CLIENT}CMakeLists.txt ${DIRECTORY_ROOT_CLIENT}${DIRECTORY_BACKUP} 2>/dev/null && echo -n "Backed up & "
@@ -249,14 +249,6 @@ clang-update-tidy:
 	cp ${TEMPLATE_CLANG_TIDY} ${DIRECTORY_ROOT_CLIENT}.clang-tidy
 	echo "Done!"
 
-# CLANG: Hook Update
-# 	WHEN: Execute this if want to update .pre-commit-config.yaml .
-# 	What: Overwrites / Copies the .pre-commit-config.yaml template to client.
-clang-update-hook:
-	echo -n "Updating The Pre-Commit Hook ... "
-	cp ${TEMPLATE_CLANG_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
-	echo "Done!"
-
 # GIT: Hook Rehook
 # 	WHEN: Execute this if want to reinstall .pre-commit-config.yaml as hook.
 # 	What: Installs it via pre-commit.
@@ -281,4 +273,12 @@ git-refresh:
 git-update-ignore:
 	echo -n "Updating .gitignore ... "
 	cp ${TEMPLATE_GITIGNORE} ${DIRECTORY_ROOT_CLIENT}.gitignore
+	echo "Done!"
+
+# GIT : Hook Update
+# 	WHEN: Execute this if want to update .pre-commit-config.yaml .
+# 	What: Overwrites / Copies the .pre-commit-config.yaml template to client.
+git-update-hook:
+	echo -n "Updating the Pre-Commit Hook from template ... "
+	cp ${TEMPLATE_GIT_PRECOMMIT_HOOK} ${DIRECTORY_ROOT_CLIENT}.pre-commit-config.yaml
 	echo "Done!"
